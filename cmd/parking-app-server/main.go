@@ -21,13 +21,13 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	api := operations.NewTodoListAPI(swaggerSpec)
+	api := operations.NewParkingAppAPI(swaggerSpec)
 	server := restapi.NewServer(api)
 	defer server.Shutdown()
 
 	parser := flags.NewParser(server, flags.Default)
-	parser.ShortDescription = "A To Do list application"
-	parser.LongDescription = "The product of a tutorial on goswagger.io"
+	parser.ShortDescription = "A Parking lot application"
+	parser.LongDescription = "The product of a parking.io Behnam Hajian"
 
 	server.ConfigureFlags()
 	for _, optsGroup := range api.CommandLineOptionsGroups {
