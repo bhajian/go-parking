@@ -96,10 +96,11 @@ func (l *LotService) AllLots(since int64, limit int32) (result []*models.Lot) {
 	return
 }
 
-func (l *LotService) GetTicket(lotId int64) (*models.Ticket, error) {
+func (l *LotService) GetTicket(lotId int64, carSize string) (*models.Ticket, error) {
 	var ticket = models.Ticket{}
 	t := time.Now()
 	ticket.LotID = lotId
+	ticket.CarSize = carSize
 	ticket.EntryTime = t.Format(time.RFC3339)
 	var retTicket, err = l.ticketSerevice.AddTicket(&ticket) 
 	if err == nil {

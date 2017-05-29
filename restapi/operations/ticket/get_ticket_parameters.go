@@ -33,6 +33,11 @@ type GetTicketParams struct {
 	  Required: true
 	  In: path
 	*/
+	CarSize string
+	/*
+	  Required: true
+	  In: path
+	*/
 	LotID int64
 }
 
@@ -42,6 +47,11 @@ func (o *GetTicketParams) BindRequest(r *http.Request, route *middleware.Matched
 	var res []error
 	o.HTTPRequest = r
 
+	rCarSize, rhkCarSize, _ := route.Params.GetOK("carSize")
+	if err := o.bindCarSize(rCarSize, rhkCarSize, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
 	rLotID, rhkLotID, _ := route.Params.GetOK("lotId")
 	if err := o.bindLotID(rLotID, rhkLotID, route.Formats); err != nil {
 		res = append(res, err)
@@ -50,6 +60,17 @@ func (o *GetTicketParams) BindRequest(r *http.Request, route *middleware.Matched
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (o *GetTicketParams) bindCarSize(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	o.CarSize = raw
+
 	return nil
 }
 

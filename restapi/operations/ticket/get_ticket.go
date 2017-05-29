@@ -27,7 +27,7 @@ func NewGetTicket(ctx *middleware.Context, handler GetTicketHandler) *GetTicket 
 	return &GetTicket{Context: ctx, Handler: handler}
 }
 
-/*GetTicket swagger:route GET /ticket/getTicket/lot/{lotId} ticket getTicket
+/*GetTicket swagger:route GET /ticket/getTicket/lot/{lotId}/carSize/{carSize} ticket getTicket
 
 GetTicket get ticket API
 

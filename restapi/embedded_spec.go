@@ -224,7 +224,7 @@ func init() {
         }
       ]
     },
-    "/ticket/getTicket/lot/{lotId}": {
+    "/ticket/getTicket/lot/{lotId}/carSize/{carSize}": {
       "get": {
         "tags": [
           "ticket"
@@ -250,6 +250,12 @@ func init() {
           "type": "integer",
           "format": "int64",
           "name": "lotId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "string",
+          "name": "carSize",
           "in": "path",
           "required": true
         }

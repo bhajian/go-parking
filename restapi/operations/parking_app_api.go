@@ -282,7 +282,7 @@ func (o *ParkingAppAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/ticket/getTicket/lot/{lotId}"] = ticket.NewGetTicket(o.context, o.TicketGetTicketHandler)
+	o.handlers["GET"]["/ticket/getTicket/lot/{lotId}/carSize/{carSize}"] = ticket.NewGetTicket(o.context, o.TicketGetTicketHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)

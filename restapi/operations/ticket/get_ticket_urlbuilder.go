@@ -14,7 +14,8 @@ import (
 
 // GetTicketURL generates an URL for the get ticket operation
 type GetTicketURL struct {
-	LotID int64
+	CarSize string
+	LotID   int64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -40,8 +41,14 @@ func (o *GetTicketURL) SetBasePath(bp string) {
 func (o *GetTicketURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/ticket/getTicket/lot/{lotId}"
+	var _path = "/ticket/getTicket/lot/{lotId}/carSize/{carSize}"
 
+	carSize := o.CarSize
+	if carSize != "" {
+		_path = strings.Replace(_path, "{carSize}", carSize, -1)
+	} else {
+		return nil, errors.New("CarSize is required on GetTicketURL")
+	}
 	lotID := swag.FormatInt64(o.LotID)
 	if lotID != "" {
 		_path = strings.Replace(_path, "{lotId}", lotID, -1)
