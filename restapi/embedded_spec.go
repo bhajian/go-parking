@@ -13,28 +13,28 @@ var SwaggerJSON json.RawMessage
 func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
   "consumes": [
-    "application/io.goswagger.examples.todo-list.v1+json"
+    "application/io.goswagger.parking.v1+json"
   ],
   "produces": [
-    "application/io.goswagger.examples.todo-list.v1+json"
+    "application/io.goswagger.parking.v1+json"
   ],
   "schemes": [
-    "http",
-    "https"
+    "http"
   ],
   "swagger": "2.0",
   "info": {
-    "description": "The product of a tutorial on goswagger.io",
-    "title": "A To Do list application",
+    "description": "The product of a parking.io Behnam Hajian",
+    "title": "A Parking lot application",
     "version": "1.0.0"
   },
+  "basePath": "/api",
   "paths": {
-    "/": {
+    "/lot": {
       "get": {
         "tags": [
-          "todos"
+          "lot"
         ],
-        "operationId": "findTodos",
+        "operationId": "findLots",
         "parameters": [
           {
             "type": "integer",
@@ -52,11 +52,11 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "list the todo operations",
+            "description": "returns a list the lots",
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/item"
+                "$ref": "#/definitions/lot"
               }
             }
           },
@@ -70,7 +70,7 @@ func init() {
       },
       "post": {
         "tags": [
-          "todos"
+          "lot"
         ],
         "operationId": "addOne",
         "parameters": [
@@ -78,7 +78,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/item"
+              "$ref": "#/definitions/lot"
             }
           }
         ],
@@ -86,7 +86,7 @@ func init() {
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/item"
+              "$ref": "#/definitions/lot"
             }
           },
           "default": {
@@ -98,10 +98,41 @@ func init() {
         }
       }
     },
-    "/{id}": {
+    "/lot/status/{id}": {
+      "get": {
+        "tags": [
+          "lot"
+        ],
+        "operationId": "getStstus",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/lot"
+            }
+          },
+          "default": {
+            "description": "error",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "integer",
+          "format": "int64",
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/lot/{id}": {
       "put": {
         "tags": [
-          "todos"
+          "lot"
         ],
         "operationId": "updateOne",
         "parameters": [
@@ -109,7 +140,7 @@ func init() {
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/item"
+              "$ref": "#/definitions/lot"
             }
           }
         ],
@@ -117,7 +148,7 @@ func init() {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/item"
+              "$ref": "#/definitions/lot"
             }
           },
           "default": {
@@ -130,7 +161,7 @@ func init() {
       },
       "delete": {
         "tags": [
-          "todos"
+          "lot"
         ],
         "operationId": "destroyOne",
         "responses": {
@@ -154,6 +185,75 @@ func init() {
           "required": true
         }
       ]
+    },
+    "/lot/{lotId}/ticket/{ticketId}/carLeaves": {
+      "post": {
+        "tags": [
+          "ticket"
+        ],
+        "operationId": "leaveParking",
+        "responses": {
+          "200": {
+            "description": "returns an integer as price",
+            "schema": {
+              "$ref": "#/definitions/ticket"
+            }
+          },
+          "default": {
+            "description": "generic error response",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "type": "integer",
+          "format": "int64",
+          "name": "lotId",
+          "in": "path",
+          "required": true
+        },
+        {
+          "type": "integer",
+          "format": "int64",
+          "name": "ticketId",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
+    "/ticket/getTicket": {
+      "post": {
+        "tags": [
+          "ticket"
+        ],
+        "operationId": "getTicket",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ticket"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a ticket",
+            "schema": {
+              "$ref": "#/definitions/ticket"
+            }
+          },
+          "default": {
+            "description": "generic error response",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -172,16 +272,13 @@ func init() {
         }
       }
     },
-    "item": {
+    "lot": {
       "type": "object",
       "required": [
-        "description"
+        "name"
       ],
       "properties": {
-        "completed": {
-          "type": "boolean"
-        },
-        "description": {
+        "address": {
           "type": "string",
           "minLength": 1
         },
@@ -189,6 +286,66 @@ func init() {
           "type": "integer",
           "format": "int64",
           "readOnly": true
+        },
+        "lotType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mediumCarSize": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "remainderMediumCarSpaces": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "remainderSmallCarSpaces": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "smallCarSize": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "ticket": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "float64"
+        },
+        "carSize": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entryTime": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "readOnly": true
+        },
+        "leaveTime": {
+          "type": "string"
+        },
+        "licenseNumber": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lotId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "spotNumber": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     }
