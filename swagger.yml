@@ -1,22 +1,22 @@
 ---
 swagger: "2.0"
 info:
-  description: The product of a parking.io Behnam Hajian
-  title: A Parking lot application
+  description: The product of a tutorial on goswagger.io
+  title: A To Do list application
   version: 1.0.0
 consumes:
-- application/io.goswagger.parking.v1+json
+- application/io.goswagger.examples.todo-list.v1+json
 produces:
-- application/io.goswagger.parking.v1+json
-basePath: "/api"
+- application/io.goswagger.examples.todo-list.v1+json
 schemes:
 - http
+- https
 paths:
-  "/lot":
+  /:
     get:
       tags:
-        - lot
-      operationId: findLots
+        - todos
+      operationId: findTodos
       parameters:
         - name: since
           in: query
@@ -29,34 +29,34 @@ paths:
           default: 20
       responses:
         200:
-          description: returns a list the lots 
+          description: list the todo operations
           schema:
             type: array
             items:
-              $ref: "#/definitions/lot"
+              $ref: "#/definitions/item"
         default:
           description: generic error response
           schema:
             $ref: "#/definitions/error"
     post:
       tags:
-        - lot
+        - todos
       operationId: addOne
       parameters:
         - name: body
           in: body
           schema:
-            $ref: "#/definitions/lot"
+            $ref: "#/definitions/item"
       responses:
         201:
           description: Created
           schema:
-            $ref: "#/definitions/lot"
+            $ref: "#/definitions/item"
         default:
           description: error
           schema:
             $ref: "#/definitions/error"
-  "/lot/{id}":
+  /{id}:
     parameters:
       - type: integer
         format: int64
@@ -65,25 +65,25 @@ paths:
         required: true
     put:
       tags:
-        - lot
+        - todos
       operationId: updateOne
       parameters:
         - name: body
           in: body
           schema:
-            $ref: "#/definitions/lot"
+            $ref: "#/definitions/item"
       responses:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/lot"
+            $ref: "#/definitions/item"
         default:
           description: error
           schema:
             $ref: "#/definitions/error"
     delete:
       tags:
-        - lot
+        - todos
       operationId: destroyOne
       responses:
         204:
@@ -92,132 +92,21 @@ paths:
           description: error
           schema:
             $ref: "#/definitions/error"
-            
-  "/lot/status/{id}":
-    parameters:
-      - type: integer
-        format: int64
-        name: id
-        in: path
-        required: true
-    get:
-      tags:
-        - lot
-      operationId: getStstus
-      responses:
-        200:
-          description: OK
-          schema:
-            $ref: "#/definitions/lot"
-        default:
-          description: error
-          schema:
-            $ref: "#/definitions/error"
-            
-            
-  "/ticket/getTicket":
-    post:
-      tags:
-        - ticket
-      operationId: getTicket
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: "#/definitions/ticket"
-      responses:
-        200:
-          description: returns a ticket 
-          schema:
-            $ref: "#/definitions/ticket"
-        default:
-          description: generic error response
-          schema:
-            $ref: "#/definitions/error"
-
-  "/lot/{lotId}/ticket/{ticketId}/carLeaves":
-    parameters:
-      - type: integer
-        format: int64
-        name: lotId
-        in: path
-        required: true
-      - type: integer
-        format: int64
-        name: ticketId
-        in: path
-        required: true
-    post:
-      tags:
-        - ticket
-      operationId: leaveParking
-      responses:
-        200:
-          description: returns an integer as price
-          schema:
-            $ref: "#/definitions/ticket"
-        default:
-          description: generic error response
-          schema:
-            $ref: "#/definitions/error"
-
 definitions:
-  lot:
+  item:
     type: object
     required:
-      - name
+      - description
     properties:
       id:
         type: integer
         format: int64
         readOnly: true
-      name:
+      description:
         type: string
         minLength: 1
-      lotType:
-        type: string
-        minLength: 1
-      address:
-        type: string
-        minLength: 1
-      smallCarSize:
-        type: integer
-        format: int64
-      mediumCarSize:
-        type: integer
-        format: int64
-      remainderSmallCarSpaces:
-        type: integer
-        format: int64
-      remainderMediumCarSpaces:
-        type: integer
-        format: int64
-  ticket:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-        readOnly: true
-      lotId:
-        type: integer
-        format: int64
-      entryTime:
-        type: string
-      leaveTime:
-        type: string
-      licenseNumber:
-        type: string
-        minLength: 1
-      carSize:
-        type: string
-        minLength: 1
-      spotNumber:
-        type: integer
-        format: int64
-      amount:
-        type: integer
-        format: float64
+      completed:
+        type: boolean
   error:
     type: object
     required:
