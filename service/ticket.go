@@ -15,6 +15,10 @@ type TicketService struct {
 	ticketsLock sync.Mutex
 }
 
+func (l *TicketService) Init() {
+	l.tickets = make(map[int64]*models.Ticket)
+}
+
 func (l *TicketService) newTicketID() int64 {
 	return atomic.AddInt64(&l.lastID, 1)
 }

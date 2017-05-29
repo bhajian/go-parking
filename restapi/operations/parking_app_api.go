@@ -279,10 +279,10 @@ func (o *ParkingAppAPI) initHandlerCache() {
 	}
 	o.handlers["GET"]["/lot/status/{id}"] = lot.NewGetStstus(o.context, o.LotGetStstusHandler)
 
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/ticket/getTicket"] = ticket.NewGetTicket(o.context, o.TicketGetTicketHandler)
+	o.handlers["GET"]["/ticket/getTicket/lot/{lotId}"] = ticket.NewGetTicket(o.context, o.TicketGetTicketHandler)
 
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)

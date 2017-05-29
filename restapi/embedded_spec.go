@@ -224,21 +224,12 @@ func init() {
         }
       ]
     },
-    "/ticket/getTicket": {
-      "post": {
+    "/ticket/getTicket/lot/{lotId}": {
+      "get": {
         "tags": [
           "ticket"
         ],
         "operationId": "getTicket",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/ticket"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "returns a ticket",
@@ -253,7 +244,16 @@ func init() {
             }
           }
         }
-      }
+      },
+      "parameters": [
+        {
+          "type": "integer",
+          "format": "int64",
+          "name": "lotId",
+          "in": "path",
+          "required": true
+        }
+      ]
     }
   },
   "definitions": {

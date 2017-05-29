@@ -7,11 +7,18 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
+	"strings"
+
+	"github.com/go-openapi/swag"
 )
 
 // GetTicketURL generates an URL for the get ticket operation
 type GetTicketURL struct {
+	LotID int64
+
 	_basePath string
+	// avoid unkeyed usage
+	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
@@ -33,8 +40,14 @@ func (o *GetTicketURL) SetBasePath(bp string) {
 func (o *GetTicketURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/ticket/getTicket"
+	var _path = "/ticket/getTicket/lot/{lotId}"
 
+	lotID := swag.FormatInt64(o.LotID)
+	if lotID != "" {
+		_path = strings.Replace(_path, "{lotId}", lotID, -1)
+	} else {
+		return nil, errors.New("LotID is required on GetTicketURL")
+	}
 	_basePath := o._basePath
 	if _basePath == "" {
 		_basePath = "/api"

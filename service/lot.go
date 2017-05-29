@@ -4,7 +4,7 @@ package service
 import (
 	"sync"
 	"sync/atomic"
-
+	"time"
 	errors "github.com/go-openapi/errors"
 	"github.com/user/todo/models"
 	
@@ -28,6 +28,7 @@ type LotService struct {
 func (l *LotService) Init() {
 	l.lots = make(map[int64]*models.Lot)
 	l.ticketSerevice = TicketService{}
+	l.ticketSerevice.Init()
 }
 
 func (l *LotService) newLotID() int64 {
@@ -95,10 +96,14 @@ func (l *LotService) AllLots(since int64, limit int32) (result []*models.Lot) {
 	return
 }
 
-func (l *LotService) GetTicket(ticket *models.Ticket) (*models.Ticket, error) {
-	var retTicket, err = l.ticketSerevice.AddTicket(ticket) 
-	if err != nil {
-		var lot = l.lots[ticket.LotID]
+func (l *LotService) GetTicket(lotId int64) (*models.Ticket, error) {
+	var ticket = models.Ticket{}
+	t := time.Now()
+	ticket.LotID = lotId
+	ticket.EntryTime = t.Format(time.RFC3339)
+	var retTicket, err = l.ticketSerevice.AddTicket(&ticket) 
+	if err == nil {
+		var lot = l.lots[lotId]
 		lot.GetTicket(*retTicket)
 		return retTicket, nil
 	}

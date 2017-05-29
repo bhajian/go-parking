@@ -70,7 +70,7 @@ func configureAPI(api *operations.ParkingAppAPI) http.Handler {
 		return middleware.NotImplemented("operation lot.GetStstus has not yet been implemented")
 	})
 	api.TicketGetTicketHandler = ticket.GetTicketHandlerFunc(func(params ticket.GetTicketParams) middleware.Responder {
-		var res, err = lotService.GetTicket(params.Body)
+		var res, err = lotService.GetTicket(params.LotID)
 		if err != nil {
 			return lot.NewAddOneDefault(500).WithPayload(&models.Error{Code: 500, Message: swag.String(err.Error())})
 		}
