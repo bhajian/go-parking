@@ -16,8 +16,8 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/user/todo/restapi/operations/lot"
-	"github.com/user/todo/restapi/operations/ticket"
+	"github.com/user/go-parking/restapi/operations/lot"
+	"github.com/user/go-parking/restapi/operations/ticket"
 )
 
 // NewParkingAppAPI creates a new ParkingApp instance

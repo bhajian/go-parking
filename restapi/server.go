@@ -18,7 +18,7 @@ import (
 	flags "github.com/jessevdk/go-flags"
 	graceful "github.com/tylerb/graceful"
 
-	"github.com/user/todo/restapi/operations"
+	"github.com/user/go-parking/restapi/operations"
 )
 
 const (

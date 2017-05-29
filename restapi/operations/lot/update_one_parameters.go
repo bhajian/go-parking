@@ -13,7 +13,7 @@ import (
 
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/user/todo/models"
+	"github.com/user/go-parking/models"
 )
 
 // NewUpdateOneParams creates a new UpdateOneParams object
