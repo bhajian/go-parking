@@ -6,7 +6,7 @@ import (
 	"sync/atomic"
 
 	errors "github.com/go-openapi/errors"
-	"github.com/user/todo/models"
+	"github.com/user/go-parking/models"
 )
 
 type TicketService struct {

@@ -10,11 +10,11 @@ import (
 	graceful "github.com/tylerb/graceful"
 	"github.com/go-openapi/swag"
 
-	"github.com/user/todo/restapi/operations"
-	"github.com/user/todo/restapi/operations/lot"
-	"github.com/user/todo/restapi/operations/ticket"
-	"github.com/user/todo/service"
-	"github.com/user/todo/models"
+	"github.com/user/go-parking/restapi/operations"
+	"github.com/user/go-parking/restapi/operations/lot"
+	"github.com/user/go-parking/restapi/operations/ticket"
+	"github.com/user/go-parking/service"
+	"github.com/user/go-parking/models"
 )
 
 // This file is safe to edit. Once it exists it will not be overwritten
